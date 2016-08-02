@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yml.listdemo.R;
+import com.yml.listdemo.model.Data;
 
 import java.util.List;
 
@@ -18,12 +19,12 @@ import java.util.List;
  */
 public class ViewHolderAdapter extends BaseAdapter {
     private Context context;
-    private List<String> stringList;
+    private List<Data> dataList;
     private LayoutInflater inflater;
 
-    public ViewHolderAdapter(Context context, List<String> stringList) {
+    public ViewHolderAdapter(Context context, List<Data> stringList) {
         this.context = context;
-        this.stringList = stringList;
+        this.dataList = stringList;
 
         inflater = LayoutInflater.from(context);
     }
@@ -31,12 +32,12 @@ public class ViewHolderAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return stringList.size();
+        return dataList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return stringList.get(i);
+        return dataList.get(i);
     }
 
     @Override
@@ -59,24 +60,11 @@ public class ViewHolderAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        String string = stringList.get(i);
-        if (string.equalsIgnoreCase("amlan")) {
-            holder.imageView.setImageResource(R.drawable.jurrasic_park);
-        } else if (string.equalsIgnoreCase("praveen")) {
-            holder.imageView.setImageResource(R.drawable.tiger);
-        } else if (string.equalsIgnoreCase("Eshwar")) {
-            holder.imageView.setImageResource(R.drawable.jaguar);
-        } else if (string.equalsIgnoreCase("Sudha")) {
-            holder.imageView.setImageResource(R.drawable.cat);
-        } else if (string.equalsIgnoreCase("Nisha")) {
-            holder.imageView.setImageResource(R.drawable.rabbit);
-        } else if (string.equalsIgnoreCase("Ayush")) {
-            holder.imageView.setImageResource(R.drawable.wolf);
-        } else if (string.equalsIgnoreCase("Ankit")) {
-            holder.imageView.setImageResource(R.drawable.dog);
-        }
+        Data data = dataList.get(i);
 
-        holder.textView.setText(string);
+
+        holder.textView.setText(data.getName());
+        holder.imageView.setImageResource(data.getImageResurceId());
 
         return view;
     }
