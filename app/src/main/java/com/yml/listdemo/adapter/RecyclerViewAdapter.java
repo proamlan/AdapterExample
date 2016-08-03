@@ -2,6 +2,7 @@ package com.yml.listdemo.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yml.listdemo.R;
+import com.yml.listdemo.callback.ImageClickedCallback;
 
 import java.util.List;
 
@@ -19,15 +21,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private Context context;
     private List<String> stringList;
+    private ImageClickedCallback callback;
 
-    public RecyclerViewAdapter(Context context, List<String> stringList) {
+    public RecyclerViewAdapter(Context context, List<String> stringList, ImageClickedCallback callback) {
         this.context = context;
         this.stringList = stringList;
+        this.callback = callback;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.my_first_custom_row , parent , false);
+        View view = LayoutInflater.from(context).inflate(R.layout.my_first_custom_row, parent, false);
 
         MyViewHolder viewHolder = new MyViewHolder(view);
         return viewHolder;
@@ -54,6 +58,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
 
         holder.textView.setText(string);
+
+        holder.view.setTag(position);
     }
 
     @Override
@@ -65,11 +71,25 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         ImageView imageView;
         TextView textView;
+        View view;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            view = itemView;
             imageView = (ImageView) itemView.findViewById(R.id.profile_image);
             textView = (TextView) itemView.findViewById(R.id.profile_name);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = (int) view.getTag();
+                    Log.e("amlan", "Clicked Position" + position);
+                    if (callback != null) {
+                        callback.onImageClicked(position);
+                    }
+                }
+            });
+
         }
     }
 
